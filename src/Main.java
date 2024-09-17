@@ -63,6 +63,7 @@ public class Main {
                     break;
                 case EQUAL_PHONES:
                     checkEqualPhoneNumbers(cBook);
+                    break;
                 default:
                     System.out.println(COMMAND_ERROR);
             }
@@ -177,9 +178,7 @@ public class Main {
     }
 
     private static void checkEqualPhoneNumbers(ContactBook cBook) {
-        if(cBook.getNumberOfContacts() == 0){
-            System.out.println(BOOK_EMPTY);
-        }else if(cBook.checkSharedPhoneNumbers()){
+        if(cBook.checkSharedPhoneNumbers()){
             System.out.println(SHARED_PHONE_NUMBERS);
         }else {
             System.out.println(DIFFERENT_PHONE_NUMBERS);
