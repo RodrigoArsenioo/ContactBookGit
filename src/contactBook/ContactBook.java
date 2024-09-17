@@ -112,11 +112,11 @@ public class ContactBook {
         while (i < counter && !found) {
             if (contacts[i].getPhone() == phone) {
                 result++;
-            } else if (result > 1) {
-                found = true;
-            } else {
-                i++;
             }
+            if (result > 1) {
+                found = true;
+            }
+            i++;
         }
         return found;
     }
