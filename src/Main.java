@@ -13,7 +13,8 @@ public class Main {
     public static final String SET_PHONE      = "SP";
     public static final String SET_EMAIL      = "SE";
     public static final String LIST_CONTACTS  = "LC";
-    public static final String CONTACT_NUMBER  = "GN";
+    public static final String CONTACT_NUMBER = "GN";
+    public static final String EQUAL_PHONES   = "EP";
     public static final String QUIT           = "Q";
 
     //Constantes que definem as mensagens para o utilizador
@@ -24,6 +25,8 @@ public class Main {
     public static final String CONTACT_UPDATED = "contactBook.Contact updated.";
     public static final String BOOK_EMPTY = "contactBook.Contact book empty.";
     public static final String PHONE_NOT_EXIST  = "Phone number does not exist.";
+    public static final String SHARED_PHONE_NUMBERS = "There are contacts that share phone numbers.";
+    public static final String DIFFERENT_PHONE_NUMBERS = "All contacts have different phone numbers.";
     public static final String QUIT_MSG = "Goodbye!";
     public static final String COMMAND_ERROR = "Unknown command.";
 
@@ -58,6 +61,8 @@ public class Main {
                 case CONTACT_NUMBER:
                     lookupContactNumber(in,cBook);
                     break;
+                case EQUAL_PHONES:
+                    checkEqualPhoneNumbers(cBook);
                 default:
                     System.out.println(COMMAND_ERROR);
             }
@@ -68,6 +73,7 @@ public class Main {
         System.out.println();
         in.close();
     }
+
 
     private static String getCommand(Scanner in) {
         String input;
@@ -154,21 +160,29 @@ public class Main {
     }
 
     private static void lookupContactNumber(Scanner in, ContactBook cBook) {
-        int phone;
-        phone = in.nextInt(); in.nextLine();
-
+        int phone = in.nextInt();
+        in.nextLine();
         boolean found = false;
         Contact contact;
         cBook.initializeIterator();
-
         while (cBook.hasNext() && !found) {
             contact = cBook.next();
             if (contact.getPhone() == phone) {
-                System.out.println(contact.getName());
                 found = true;
+                System.out.println(contact.getName());
             }
         }
 
         if (!found) System.out.println(PHONE_NOT_EXIST);
+    }
+
+    private static void checkEqualPhoneNumbers(ContactBook cBook) {
+        if(cBook.getNumberOfContacts() == 0){
+            System.out.println(BOOK_EMPTY);
+        }else if(cBook.checkSharedPhoneNumbers()){
+            System.out.println(SHARED_PHONE_NUMBERS);
+        }else {
+            System.out.println(DIFFERENT_PHONE_NUMBERS);
+        }
     }
 }
